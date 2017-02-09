@@ -1,0 +1,35 @@
+/** Servidor Web **/
+
+/** Apache **/
+
+sudo apt-get install apache2
+
+/** Asignar el ServerName **/
+
+//Abrir archivo 
+sudo nano /etc/apache2/apache2.conf
+
+//Escribir al final del archvio y despues guardar
+ServerName 'Nombre de dominio o IP'
+
+/**Configurar el Firewall**/
+
+//Permitir acceso al puerto 80 y 443 
+sudo ufw allow in "Apache Full"
+
+//Por ultimo reiniciar el servidor
+
+/** PHP **/
+
+sudo apt-get install php libapache2-mod-php php-mcrypt php-mysql
+
+/** MySQL**/
+
+sudo apt-get install mysql-server
+
+/** Configurar MySQL **/
+
+sudo mysql_secure_installation
+
+/** phpmyadmin **/
+sudo apt-get install phpmyadmin

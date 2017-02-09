@@ -1,0 +1,31 @@
+/**Instalar Dynamic IP Client (ddclient)**/
+
+sudo apt-get install ddclient
+
+//Abrir el archivo 
+sudo nano /etc/ddclient.conf
+
+//Colocar la siguiente configuración 
+
+daemon=60
+syslog=yes
+mail=root
+mail-failure=root
+pid=/var/run/ddclient.pid
+use=web
+server=api.dynu.com
+protocol=dyndns2
+login=maravillas.isidro@gmail.com
+password=JIsidro0203
+yulloweb.com
+
+//Iniciar la configuración 
+sudo ddclient -daemon=0 -debug -verbose -noquiet
+
+//Reiniciar el servicio
+sudo /etc/init.d/ddclient restart
+
+//Estado del servicio
+sudo /etc/init.d/ddclient status
+
+
