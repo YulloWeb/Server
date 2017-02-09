@@ -1,0 +1,97 @@
+/************** Samba en el servidor *****************/
+
+//Instalar samba
+sudo apt-get install samba samba-client samba-common
+
+//Abrir el archivo
+sudo nano /etc/samba/smb.conf
+
+//Crear un usuario para Samba
+sudo smbpasswd -a 'nombre de usuario'
+
+//Lista de aplicaciones para el firewall 
+sudo ufw app list
+
+//Información sobre una aplicación
+sudo ufw app info 'nombre de la aplicación'
+
+//Permitir el acceso a Samba
+sudo ufw allow in Samba
+
+//Reiniciar Samba
+sudo /etc/init.d/samba restart
+
+//Estado 
+sudo /etc/init.d/samba status 
+
+//Más información
+https://www.samba.org/samba/docs/man/manpages-3/smb.conf.5.html
+
+/** Samba en el cliente **/
+
+//Instalar samba
+sudo apt-get install samba-client cifs-utils
+
+//Información de Samba
+sudo smbclient -L //'IP del servidor' -U 'usuario'
+
+//Explorar samba
+sudo smbclient //'IP del servidor'/'usuario' -U 'Usuario'
+
+/**************** Compartir carpetas ************************/
+
+//Crear una carpeta para compartir
+sudo mkdir /srv/shared
+
+//Asignar permisos
+sudo chmod -R 777 /srv/shared
+
+//Cambiar el contexto de SELinux (Esto funciona solamente con CentOS)
+sudo chcon -t samba_share_t /srv/shared
+
+//Entrar al directorio
+cd /srv/shared
+
+//Crear un archivo de prueba
+fallocate -l 50MB file01
+
+//Configurar el archivo samba
+sudo nano /etc/samba/smb.conf
+
+//Asignar la siguiente configuración al final del archivo
+[sharedfolder]
+        comment = Compartir archivos a un grupo
+        path = /srv/shared
+        writable = yes
+        browsable = yes
+        //valid users = @'nombre del grupo' //Esto funciona para asignar a un grupo en especifico
+
+//Verificar si no hay errores
+sudo testparm
+
+//Reiniciar el servidor 
+sudo /etc/init.d/samba restart
+
+//Información de Samba
+sudo smbclient -L //'IP del servidor' -U 'usuario'
+
+//Explorar samba
+sudo smbclient //'IP del servidor'/'usuario' -U 'Usuario'
+
+/******** Montar una carpeta en el cliente automaticamente *******/
+
+//Abrir el archivo
+sudo nano /etc/fstab
+
+//Asignar lo siguiente al final del archivo
+#device                         mount point             filesystem      options                                         dump    pass
+//192.168.1.137/sharedfolder    /mnt/homeshared         cifs            username=julio,password=JMaravillas-0203        0       0
+
+//Montar el directorio
+sudo mount -a
+
+//Comprobar el montaje
+df
+
+
+
