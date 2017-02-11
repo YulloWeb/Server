@@ -1,0 +1,16 @@
+/*** Configuración de IP fija ***/
+
+//Abrir el archivo 
+sudo nano /etc/network/interfaces 
+
+//Asignar las siguientes instrucciones
+auto 'nombre de la tarjeta de red'
+iface 'nombre de la tarjeta de red' inet static
+address 192.168.1.245
+netmask 255.255.255.0
+network 192.168.1.63
+broadcast 192.168.1.255
+gateway 192.168.1.254
+
+//Reiniciar el servicio
+sudo /etc/init.d/networking restart
